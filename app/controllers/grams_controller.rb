@@ -8,6 +8,13 @@ before_action :authenticate_user!, only: [:new, :create]
   def index
   end
 
+  def show
+    @gram = Gram.find_by_id(params[:id])
+    if @gram.blank?
+      render plain: 'Not Found :(', status: :not_found
+    end
+  end
+
   def create
     @gram = current_user.grams.create(gram_params)
     if @gram.valid?
